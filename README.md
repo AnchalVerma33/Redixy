@@ -1,6 +1,6 @@
 # Redixy
 
-A Redis server implementation in Java, built from scratch as a learning project.
+A Redis server implementation in Java.
 
 ## Requirements
 
