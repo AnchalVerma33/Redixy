@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Builds and runs Redixy locally.
-# Usage: ./run.sh [--port 6379]
+# Usage: ./run.sh [port]
 
 set -e
 
