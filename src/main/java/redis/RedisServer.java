@@ -2,8 +2,10 @@ package redis;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
 
 
 public class RedisServer {
@@ -20,8 +22,11 @@ public class RedisServer {
             System.out.println("Client connected!");
             RespParser parser =
                     new RespParser(clientSocket.getInputStream());
-            String line = parser.readBulkString();
-            System.out.println("Received: [" + line + "]");
+            List<String> actions = parser.readCommand();
+            CommandHandler command = new CommandHandler();
+            String response = command.handle(actions);
+            RespEncoder encoder = new RespEncoder(clientSocket.getOutputStream());
+            encoder.writeSimpleString(response);
         } catch (IOException e){
             System.out.println("Server Error: " + e.getMessage());
         } finally {

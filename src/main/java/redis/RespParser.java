@@ -2,6 +2,8 @@ package redis;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RespParser {
     private final InputStream inputStream;
@@ -53,6 +55,15 @@ public class RespParser {
             throw new IOException("Invalid RESP bulk string ending");
         }
         return new String(data);
+    }
+
+    public List<String> readCommand() throws IOException{
+        int length = readArrayLength();
+        List<String> commands = new ArrayList<>();
+        for(int i =0; i< length; i++){
+            commands.add(readBulkString());
+        }
+        return commands;
     }
 
 }
