@@ -18,11 +18,10 @@ public class RedisServer {
             System.out.println("Redis server started on port " + port);
             clientSocket = serverSocket.accept();
             System.out.println("Client connected!");
-            InputStream input = clientSocket.getInputStream();
-            int data = input.read();
-            if (data != -1) {
-                System.out.println("Received: " + (char) data);
-            }
+            RespParser parser =
+                    new RespParser(clientSocket.getInputStream());
+            String line = parser.readBulkString();
+            System.out.println("Received: [" + line + "]");
         } catch (IOException e){
             System.out.println("Server Error: " + e.getMessage());
         } finally {
